@@ -1,4 +1,4 @@
-import axios from "axios";
+import apiClient from "../../../services/api-client";
 import { useEffect } from "react";
 import { useState } from "react";
 import { geraArtigos } from "../../../stories/helpers/gerador-artigos";
@@ -10,14 +10,8 @@ export const MeusArtigosPage = () => {
     const [articles, setArticles] = useState<ArticleThumbnailProps[]>([]);
 
     async function buscaMeusArtigos() {
-        const token = localStorage.getItem("access_token");
-        const response = await axios.get<ArticleThumbnailProps[]>(
-            'http://3.221.159.196:3307/artigos/meus-artigos',
-            {
-                headers: {
-                    'Authorization': 'bearer ${token}'
-                }
-            }
+        const response = await apiClient.get<ArticleThumbnailProps[]>(
+            '/artigos/meus-artigos'
         );
         setArticles(response.data);
     }
@@ -25,8 +19,6 @@ export const MeusArtigosPage = () => {
     useEffect(() => {
         buscaMeusArtigos();
     }, []);
-
-
 
 
     return (
