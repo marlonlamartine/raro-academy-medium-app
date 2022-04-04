@@ -1,7 +1,6 @@
 import apiClient from "../../../services/api-client";
 import { useEffect } from "react";
 import { useState } from "react";
-import { geraArtigos } from "../../../stories/helpers/gerador-artigos";
 import { ArticleList } from "../../ArticleList";
 import { ArticleThumbnailProps } from "../../ArticleThumbnail/ArticleThumbnail.types";
 

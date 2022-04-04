@@ -1,11 +1,12 @@
 import apiClient from '../../../services/api-client';
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ArticleForm } from "../../ArticleForm";
 import { ArticleThumbnailProps } from "../../ArticleThumbnail/ArticleThumbnail.types";
 
 export const EditarArtigoPage = () => {
 
+    const navigate = useNavigate();
     const [artigo, setArtigo] = useState<ArticleThumbnailProps>();
     const { id } = useParams();
     useEffect(() => {
@@ -15,16 +16,24 @@ export const EditarArtigoPage = () => {
     }, [id]);
 
     async function buscarArtigo() {
-        const response = await apiClient.get<ArticleThumbnailProps>('/artigos/${id}');
+        const response = await apiClient.get<ArticleThumbnailProps>(`/artigos/${id}`);
         setArtigo(response.data);
     }
 
-    const handleSubmit = (artigo: ArticleThumbnailProps) => {
+    async function handleSubmit(artigo: ArticleThumbnailProps) {
         if (artigo.id) {
-            console.log('=====> devo atualizar o artigo');
+            const editArtigo = await apiClient.patch(`/artigos/${artigo.id}`, { ...artigo });
+            navigate(`/artigo/${editArtigo.data.id}`);
         } else {
-            console.log('=====> devo criar um novo artigo');
+            const salvarArtigo = await apiClient.post(`/artigos/`, { ...artigo });
+            navigate(`/artigo/${salvarArtigo.data.id}`);
+
         }
+    }
+
+    async function deletar() {
+        await apiClient.delete(`/artigos/${id}`)
+        navigate(`/artigos`)
     }
 
 
@@ -32,7 +41,8 @@ export const EditarArtigoPage = () => {
     return (
         <div className="items-center justify-center m-10">
             <ArticleForm article={artigo}
-                onSubmit={handleSubmit}
+                onSubmitProp={handleSubmit}
+                onClickProps={deletar}
             />
         </div>
     );
