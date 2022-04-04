@@ -1,4 +1,4 @@
-import axios from "axios";
+import apiClient from '../../../services/api-client';
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ArticleForm } from "../../ArticleForm";
@@ -15,16 +15,7 @@ export const EditarArtigoPage = () => {
     }, [id]);
 
     async function buscarArtigo() {
-        const token = localStorage.getItem("access_token");
-
-        const response = await axios.get<ArticleThumbnailProps>(
-            'http://3.221.159.196:3307/artigos/${id}',
-            {
-                headers: {
-                    'Authorization': 'bearer ${token}'
-                }
-            }
-        );
+        const response = await apiClient.get<ArticleThumbnailProps>('/artigos/${id}');
         setArtigo(response.data);
     }
 
