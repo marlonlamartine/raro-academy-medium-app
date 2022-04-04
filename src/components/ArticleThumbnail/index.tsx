@@ -4,6 +4,7 @@ import { formataData } from "../../helpers/date";
 import { ArticleThumbnailProps } from "./ArticleThumbnail.types";
 
 export const ArticleThumbnail: React.FC<ArticleThumbnailProps> = ({
+  id,
   imagem,
   titulo,
   resumo,
@@ -14,12 +15,13 @@ export const ArticleThumbnail: React.FC<ArticleThumbnailProps> = ({
   const [editavel, setEditavel] = useState(false);
 
   useEffect(() => {
-    const usuarioAtual = Number(localStorage.getItem('usuarioId'));
+    const usuarioAtual = Number(localStorage.getItem('id'));
     setEditavel(autor.id === usuarioAtual);
+
   }, [autor])
   return (
     <div className="flex flex-col w-2/3 mt-5">
-      <Link to={'/artigo/${id}'}>
+      <Link to={`/artigo/${id}`}>
         <header className="flex flex-row gap-3 items-center">
           <img
             src={autor.avatar}
@@ -53,17 +55,19 @@ export const ArticleThumbnail: React.FC<ArticleThumbnailProps> = ({
         </div>
         {
           editavel && (
-            <button
-              className={
-                `
+            <Link to={`/artigos/editar/${id}`}>
+              <button
+                className={
+                  `
                 hover:bg-blue-400 bg-blue-300 text-white
                 delay-100 duration-100
                 rounded-full py-1 px-2 text-xs
                 `
-              }
-            >
-              Editar
-            </button>
+                }
+              >
+                Editar
+              </button>
+            </Link>
           )
         }
       </footer>

@@ -6,10 +6,11 @@ import { RitchTextEditor } from "../RitchTextEditor";
 
 type ArticleFormProps = {
   article?: ArticleThumbnailProps;
-  onSubmit?: (article: ArticleThumbnailProps) => void;
+  onSubmitProp?: (article: ArticleThumbnailProps) => void;
+  onClickProps?: () => void;
 }
 
-export const ArticleForm: FC<ArticleFormProps> = ({ article, onSubmit }) => {
+export const ArticleForm: FC<ArticleFormProps> = ({ article, onSubmitProp, onClickProps }) => {
 
   const [titulo, setTitulo] = useState("");
   const [resumo, setResumo] = useState("");
@@ -27,7 +28,7 @@ export const ArticleForm: FC<ArticleFormProps> = ({ article, onSubmit }) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (onSubmit) {
+    if (onSubmitProp) {
       const articleToSubmit = {
         ...article,
         titulo,
@@ -35,7 +36,7 @@ export const ArticleForm: FC<ArticleFormProps> = ({ article, onSubmit }) => {
         imagem,
         conteudo,
       };
-      onSubmit(articleToSubmit as ArticleThumbnailProps)
+      onSubmitProp(articleToSubmit as ArticleThumbnailProps)
     }
   }
 
@@ -66,7 +67,7 @@ export const ArticleForm: FC<ArticleFormProps> = ({ article, onSubmit }) => {
             required
           />
           <Input
-            placeholder="Breve rewsumo do artigo"
+            placeholder="Breve resumo do artigo"
             type="textarea"
             name="resumo"
             label="Resumo"
@@ -76,7 +77,7 @@ export const ArticleForm: FC<ArticleFormProps> = ({ article, onSubmit }) => {
           />
 
           <Input
-            placeholder="Breve rewsumo do artigo"
+            placeholder="Breve resumo do artigo"
             type="file"
             name="image"
             label="Banner"
@@ -92,6 +93,7 @@ export const ArticleForm: FC<ArticleFormProps> = ({ article, onSubmit }) => {
           />
 
           <Button type="submit">Salvar</Button>
+          <Button type="button" onClick={onClickProps}>Excluir</Button>
         </form>
       </div>
     </div>
