@@ -19,12 +19,13 @@ export const MeusArtigosPage = () => {
         buscaMeusArtigos();
     }, []);
 
+    if (articles.length === 0) {
+        return (<h1>Não há postagens</h1>);
+    }
 
     return (
-        <>
-            <div className="my-30">
-                <ArticleList articles={articles} />
-            </div>
-        </>
+        <div className="my-30">
+            <ArticleList articles={articles} />
+        </div>
     );
 }
